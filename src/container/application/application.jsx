@@ -13,7 +13,7 @@ var Application = React.createClass({
         var {user,userLogin,userLogout} = this.props;
         return (
             <div className="application">
-                <TimerButton countDownFrom="30"><span data-countdown></span>S</TimerButton>
+                <TimerButton countDownFrom={30} stateText="点击获取验证码" countDownText="请等待 " unitText=" 秒后重试" autoStart={true} />
             </div>
         );
     }
