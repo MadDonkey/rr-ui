@@ -9,8 +9,9 @@
 ## Component list
 * TimerButton  [√]  
   This is a button which will be disabled for specified time  
+
   API           |   Desc.
-              --|--
+  --------------|-------------------------------------------
   countDownFrom |  Number, Start countdown from this number
   autoStart     |  Bool
   stateText     |  String, The text shown before countdown start
