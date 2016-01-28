@@ -1,5 +1,4 @@
-var React = require('react'),
-    ReactDOM = require('react-dom');
+var React = require('react');
 
 module.exports = React.createClass({
     displayName: 'TimerButton',
