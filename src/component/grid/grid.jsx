@@ -25,7 +25,7 @@ module.exports = React.createClass({
         var {sortBy,filterBy} = this.props,sortByFunciton;
         gridColumn = gridColumn || Object.keys(gridList[0]);
         gridList = gridList.slice(); // Make the sort and filter on a copy of original grid list.
-
+        // do sorting from here
         if (sortBy) {
             sortByFunciton = typeof(sortBy) === 'function'? sortBy : (a,b)=>{
                 var sort = sortBy.split('|');
@@ -42,11 +42,11 @@ module.exports = React.createClass({
 
             gridList.sort(sortByFunciton);
         }
-
+        // do filter from here
         if (filterBy) {
             gridList = gridList.filter(filterBy);
         }
-
+        //build final react elements from here
         return gridList.map((row)=>{
             var encRow;
 
@@ -57,7 +57,7 @@ module.exports = React.createClass({
             }
             return(<tr key={row.id}>{encRow}</tr>);
         });
-    }, 
+    },
     render: function(){
         var {gridList, gridColumn, ...originProps} = this.props;
         var theads = this._buildHeads(gridColumn,gridList);

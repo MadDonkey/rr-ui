@@ -28,6 +28,9 @@ module.exports = React.createClass({
         this.startCountDown(countDownFrom);
       }
     },
+    componentWillUnmount: function(){
+        window.clearInterval(self._timer);
+    };
     onClick: function (evt) {
         var {onClickHandle,countDownFrom} = this.props;
 
