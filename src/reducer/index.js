@@ -1,7 +1,9 @@
 var combinReducers = require('redux').combineReducers,
-    userReducer = require('./user.js');
+    userReducer = require('./user.js'),
+    projectReducer = require('./project.js');
 
 
 module.exports = combinReducers({
-    user: userReducer
+    user: userReducer,
+    project: projectReducer
 });

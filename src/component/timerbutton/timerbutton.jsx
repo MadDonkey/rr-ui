@@ -23,14 +23,15 @@ module.exports = React.createClass({
     },
     componentDidMount: function () {
       var {countDownFrom,autoStart} = this.props;
+      console.log('mounted');
 
       if (autoStart) {
         this.startCountDown(countDownFrom);
       }
     },
     componentWillUnmount: function(){
-        window.clearInterval(self._timer);
-    };
+        window.clearInterval(this._timer);
+    },
     onClick: function (evt) {
         var {onClickHandle,countDownFrom} = this.props;
 

@@ -15,7 +15,6 @@ module.exports = function (state = {state:'logout',info:{}}, action){
                 break;
             case 'USER_LOGOUT':
                 return _.assign({},{state:'logout'});
-                break;
             default:
                 return state;
         }

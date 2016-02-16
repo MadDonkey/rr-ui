@@ -7,10 +7,14 @@ module.exports = React.createClass({
         gridColumn: React.PropTypes.array,
         sortBy: React.PropTypes.oneOfType([React.PropTypes.string,React.PropTypes.func]),
         filterBy: React.PropTypes.func,
+        range: React.PropTypes.array,
         headClickHandle: React.PropTypes.func,
         headDBClickHandle: React.PropTypes.func,
     },
     displayName: 'Grid',
+    componentDidMount: function(){
+        
+    },
     _buildHeads: function(gridColumn,gridList){
         gridColumn = gridColumn || Object.keys(gridList[0]);
         return gridColumn.map((head)=>{
@@ -21,13 +25,12 @@ module.exports = React.createClass({
         });
 
     },
-    _buildRows: function(gridColumn,gridList){
-        var {sortBy,filterBy} = this.props,sortByFunciton;
+    _buildRows: function(gridColumn,gridList,filterBy,sortBy,range){
         gridColumn = gridColumn || Object.keys(gridList[0]);
         gridList = gridList.slice(); // Make the sort and filter on a copy of original grid list.
         // do sorting from here
         if (sortBy) {
-            sortByFunciton = typeof(sortBy) === 'function'? sortBy : (a,b)=>{
+            var sortByFunciton = typeof(sortBy) === 'function'? sortBy : (a,b)=>{
                 var sort = sortBy.split('|');
                 if (sort[1] === 'ASC') {
                     if (a[sort[0]] > b[sort[0]]) {
@@ -42,10 +45,17 @@ module.exports = React.createClass({
 
             gridList.sort(sortByFunciton);
         }
+
         // do filter from here
         if (filterBy) {
             gridList = gridList.filter(filterBy);
         }
+
+        // do pagenation
+        if (range) {
+            gridList = gridList.slice(range[0],range[1]);
+        }
+
         //build final react elements from here
         return gridList.map((row)=>{
             var encRow;
@@ -59,9 +69,9 @@ module.exports = React.createClass({
         });
     },
     render: function(){
-        var {gridList, gridColumn, ...originProps} = this.props;
+        var {gridList, gridColumn, filterBy, sortBy, range, ...originProps} = this.props;
         var theads = this._buildHeads(gridColumn,gridList);
-        var trows = this._buildRows(gridColumn,gridList);
+        var trows = this._buildRows(gridColumn,gridList,filterBy,sortBy,range);
         return (
                 <table {...originProps}>
                     <thead><tr>{theads}</tr></thead>
