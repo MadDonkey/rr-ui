@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var React = require('react');
 var classnames = require('classnames');
 
@@ -5,7 +6,6 @@ module.exports = React.createClass({
     propTypes: {
         gridList: React.PropTypes.array.isRequired,
         gridColumn: React.PropTypes.array,
-        sortBy: React.PropTypes.oneOfType([React.PropTypes.string,React.PropTypes.func]),
         filterBy: React.PropTypes.func,
         range: React.PropTypes.array,
         headClickHandle: React.PropTypes.func,
@@ -13,7 +13,7 @@ module.exports = React.createClass({
     },
     displayName: 'Grid',
     componentDidMount: function(){
-        
+
     },
     _buildHeads: function(gridColumn,gridList){
         gridColumn = gridColumn || Object.keys(gridList[0]);
@@ -25,13 +25,14 @@ module.exports = React.createClass({
         });
 
     },
-    _buildRows: function(gridColumn,gridList,filterBy,sortBy,range){
+    _buildRows: function(gridColumn,gridList,filterBy,range){
         gridColumn = gridColumn || Object.keys(gridList[0]);
         gridList = gridList.slice(); // Make the sort and filter on a copy of original grid list.
         // do sorting from here
+        var sortBy = _.find(gridColumn,(column)=>column.sort);
         if (sortBy) {
-            var sortByFunciton = typeof(sortBy) === 'function'? sortBy : (a,b)=>{
-                var sort = sortBy.split('|');
+            var sortByFunciton = typeof(sortBy.sort) === 'function'? sortBy.sort : (a,b)=>{
+                var sort = sortBy.sort.split('|');
                 if (sort[1] === 'ASC') {
                     if (a[sort[0]] > b[sort[0]]) {
                         return 1;
@@ -69,9 +70,9 @@ module.exports = React.createClass({
         });
     },
     render: function(){
-        var {gridList, gridColumn, filterBy, sortBy, range, ...originProps} = this.props;
+        var {gridList, gridColumn, filterBy, range, ...originProps} = this.props;
         var theads = this._buildHeads(gridColumn,gridList);
-        var trows = this._buildRows(gridColumn,gridList,filterBy,sortBy,range);
+        var trows = this._buildRows(gridColumn,gridList,filterBy,range);
         return (
                 <table {...originProps}>
                     <thead><tr>{theads}</tr></thead>

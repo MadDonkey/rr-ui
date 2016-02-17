@@ -2,7 +2,7 @@ var _ = require('lodash');
 
 var fakeList = [
     {id:1,name:'react',star: 9999,type:'javascript'},
-    {id:2,name:'django',star:4956,type:'javascript'},
+    {id:2,name:'django',star:4956,type:'python'},
     {id:3,name:'rrui',star:12,type:'javascript'}
 ], fakeColumn = [
     {name:'name',text:'Name',isActive:true},
