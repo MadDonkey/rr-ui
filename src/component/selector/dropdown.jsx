@@ -17,13 +17,11 @@ module.exports = React.createClass({
     },
     getInitialState: function(){
         return {
-            drop: fold
+            drop:false
         };
     },
     _onLabelClick: function(evt){
-        var {drop} = this.state.drop;
-
-        this.setState({drop:!drop});
+        this.setState({drop:!this.state.drop});
     },
     _bindItemClickHandle: function(selection) {
         var {selectionChangeHandle} = this.props;
@@ -45,7 +43,7 @@ module.exports = React.createClass({
     _buildSelectionList: function(selections, activeField, labelField) {
         return selections.map((selection)=>{
             return (
-                <li className={clssnames({['active-${selection[activeField]}']:selection[activeField]})} onClick={this._bindItemClickHandle(selection)} >selection[labelField]</li>
+                <a key={selection[labelField]} className={classnames({'selection':true, ['active-' + selection[activeField]]:selection[activeField]})} onClick={this._bindItemClickHandle(selection)} >{selection[labelField]}</a>
             );
         });
     },
@@ -53,9 +51,9 @@ module.exports = React.createClass({
         var {selections,activeField,labelField,...originProps} = this.props;
         var {drop} = this.state;
         var labelEle = this._buildLabel(selections, activeField, labelField);
-        var dropELe = drop? <ul className="drop">{this._buildSelectionList(selections,activeField,labelField)}</ul> : false;
+        var dropELe = drop? <div className="drop">{this._buildSelectionList(selections,activeField,labelField)}</div> : false;
         return (
-            <div {...originProps}>
+            <div style={{position:'relative'}} {...originProps}>
                 {labelEle}
                 {dropELe}
             </div>

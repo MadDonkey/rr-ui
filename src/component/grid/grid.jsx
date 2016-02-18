@@ -15,13 +15,21 @@ module.exports = React.createClass({
     componentDidMount: function(){
 
     },
+    _bindHeadClickHandle: function(column){
+        var {headClickHandle} = this.props;
+        return headClickHandle? evt=>headClickHandle(column,evt) : evt=>false;
+    },
+    _bindHeadDBClickHandle: function(column){
+        var {headDBClickHandle} = this.props;
+        return headDBClickHandle? evt=>headDBClickHandle(column,evt) : evt=>false;
+    },
     _buildHeads: function(gridColumn,gridList){
         gridColumn = gridColumn || Object.keys(gridList[0]);
-        return gridColumn.map((head)=>{
-            if(typeof(head) === 'object')
-                return (<th key={head.name} className={classnames({['sort-${head.sort}']: head.sort, active: head.isActive })} onClick={this.onClick} onDoubleClick={this.onDoubleClick}>{head.isActive? head.text : ""}</th>);
+        return gridColumn.map((column)=>{
+            if(typeof(column) === 'object')
+                return (<th key={column.name} className={classnames({['sort-' + column.sort]: column.sort, active: column.isActive })}>{column.isActive? <a onClick={this._bindHeadClickHandle(column)} onDoubleClick={this._bindHeadDBClickHandle(column)}>{column.text}</a> : ""}</th>);
             else
-                return (<th key={head} onClick={this.onClick} onDoubleClick={this.onDoubleClick}>{head}</th>);
+                return (<th key={column}><a onClick={this._bindHeadClickHandle(column)} onDoubleClick={this._bindHeadDBClickHandle(column)}>{column.text}</a></th>);
         });
 
     },
@@ -29,17 +37,25 @@ module.exports = React.createClass({
         gridColumn = gridColumn || Object.keys(gridList[0]);
         gridList = gridList.slice(); // Make the sort and filter on a copy of original grid list.
         // do sorting from here
-        var sortBy = _.find(gridColumn,(column)=>column.sort);
-        if (sortBy) {
-            var sortByFunciton = typeof(sortBy.sort) === 'function'? sortBy.sort : (a,b)=>{
-                var sort = sortBy.sort.split('|');
-                if (sort[1] === 'ASC') {
-                    if (a[sort[0]] > b[sort[0]]) {
+        var sortByColumn = _.find(gridColumn,(column)=>column.sort);
+        if (sortByColumn) {
+            var sortByFunciton = typeof(sortByColumn.sort) === 'function'? sortByColumn.sort : (a,b)=>{
+                var {sort,name} = sortByColumn;
+                if (sort === 'ASC') {
+                    if (a[name] > b[name]) {
                         return 1;
-                    }else if (a[sort[0]] == b[sort[0]]) {
+                    }else if (a[name] > b[name]) {
                         return 0;
                     }else{
                         return -1;
+                    }
+                }else {
+                    if (a[name] > b[name]) {
+                        return -1;
+                    }else if (a[name] > b[name]) {
+                        return 0;
+                    }else{
+                        return 1;
                     }
                 }
             };

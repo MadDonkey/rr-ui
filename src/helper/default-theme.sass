@@ -1,0 +1,44 @@
+.dropdown
+    display: inline-block
+    position: relative
+    .label
+        display: inline-block
+        padding: .2rem 1rem
+        min-width: 5rem
+        text-align: center
+        background-color: #00ACC2
+        color: white
+        border-radius: 2px
+        box-shadow: 1px 1px 1px #D4D4D4
+    .drop
+        position: absolute
+        top: 2rem
+        right: 0
+        left: 0
+        background-color: white
+        border: 1px #ccc solid
+        box-shadow: 1px 1px 1px #D4D4D4
+        .selection
+            display: block
+            padding: .2rem
+            text-align: center
+            &:hover
+                background-color: #eeeeee
+            &.active-ASC
+                background-color: #eeeeee
+                &::after
+                    content: '↑'
+            &.active-DESC
+                background-color: #eeeeee
+                &::after
+                    content: '↓'
+        .selection + .selection
+            border-top: 1px #ccc solid
+
+.grid
+    th.sort-ASC
+        a::after
+            content: '↑'
+    th.sort-DESC
+        a::after
+            content: '↓'

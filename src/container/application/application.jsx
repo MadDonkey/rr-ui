@@ -5,33 +5,43 @@ var _ = require('lodash'),
 
     TimerButton = require('../../component/timerbutton/timerbutton.jsx'),
     Grid = require('../../component/grid/grid.jsx'),
+    Dropdown = require('../../component/selector/dropdown.jsx'),
 
     actions = _.assign({},require('../../action/user.js'),require('../../action/project.js'));
 
 var Application = React.createClass({
     displayName: "Application",
     render: function(){
-        console.log(this.props);
-        var {project} = this.props;
+        var {project,doProjectSort} = this.props;
         return (
             <div className="application">
                 <h2>TimerButton</h2>
-                <form className="col s12">
-                  <div className="row">
-                    <div className="input-field col s6">
-                      <input placeholder="请输入验证码" type="text" className="validate"  />
+                <div className="card">
+                    <div className="card-content">
+                        <form>
+                          <div className="row">
+                            <div className="input-field col s6">
+                              <input placeholder="请输入验证码" type="text" className="validate"  />
+                            </div>
+                            <div className="input-field col s6">
+                              <TimerButton className="waves-effect waves-light btn" countDownFrom={30} stateText="点击获取验证码" countDownText="请等待 " unitText=" 秒后重试" autoStart={false} />
+                            </div>
+                          </div>
+                        </form>
                     </div>
-                    <div className="input-field col s6">
-                      <a className="waves-effect waves-light btn">
-                        <TimerButton countDownFrom={30} style={{background:'none',border:'none'}} stateText="点击获取验证码" countDownText="请等待 " unitText=" 秒后重试" autoStart={false} />
-                        <i className="material-icons right"></i>
-                      </a>
-                    </div>
-                  </div>
-                </form>
+                </div>
                 <h2>Grid  + Dropdown Selector </h2>
-                <Grid className="bordered highlight" gridColumn={project.column} gridList={project.list} sortBy={project.sortBy} filterBy={(row)=>row.star > 10} />
-                <button onClick={(evt)=>this.props.doProjectSort('star|ASC')}>Sort</button>
+                <div className="card">
+                    <div className="card-content">
+                        <div className="row">
+                            <div className="col s6">
+                                <label htmlFor="">SortBy: </label>
+                                <Dropdown className="dropdown" selections={project.column} activeField="sort" labelField="text" selectionChangeHandle={doProjectSort} />
+                            </div>
+                        </div>
+                        <Grid className="grid bordered highlight" gridColumn={project.column} gridList={project.list} sortBy={project.sortBy} filterBy={(row)=>row.star > 10} headClickHandle={doProjectSort} />
+                    </div>
+                </div>
             </div>
         );
     }
