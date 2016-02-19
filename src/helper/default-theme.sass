@@ -34,7 +34,17 @@
                     content: '↓'
         .selection + .selection
             border-top: 1px #ccc solid
+.selector
+    display: inline-block
+    a
+        display: inline-block
+        margin: 0 .5rem
 
+        &::before
+            content: "x"
+            margin-right: .2rem
+        &.active::before
+            content: "√"
 .grid
     th.sort-ASC
         a::after

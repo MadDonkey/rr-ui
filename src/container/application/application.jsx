@@ -6,13 +6,14 @@ var _ = require('lodash'),
     TimerButton = require('../../component/timerbutton/timerbutton.jsx'),
     Grid = require('../../component/grid/grid.jsx'),
     Dropdown = require('../../component/selector/dropdown.jsx'),
+    Selector = require('../../component/selector/selector.jsx'),
 
     actions = _.assign({},require('../../action/user.js'),require('../../action/project.js'));
 
 var Application = React.createClass({
     displayName: "Application",
     render: function(){
-        var {project,doProjectSort} = this.props;
+        var {project,doProjectSort,doProjectColumnActive} = this.props;
         return (
             <div className="application">
                 <h2>TimerButton</h2>
@@ -34,12 +35,16 @@ var Application = React.createClass({
                 <div className="card">
                     <div className="card-content">
                         <div className="row">
-                            <div className="col s6">
+                            <div className="col s4">
                                 <label htmlFor="">SortBy: </label>
-                                <Dropdown className="dropdown" selections={project.column} activeField="sort" labelField="text" selectionChangeHandle={doProjectSort} />
+                                <Dropdown className="dropdown" selections={project.column} activeField="sort" labelField="label" selectionClickHandle={doProjectSort} />
+                            </div>
+                            <div className="col s8">
+                                <label htmlFor="">Column: </label>
+                                <Selector className="selector" selections={project.column} activeField="isActive" labelField="label" selectionClickHandle={doProjectColumnActive} />
                             </div>
                         </div>
-                        <Grid className="grid bordered highlight" gridColumn={project.column} gridList={project.list} sortBy={project.sortBy} filterBy={(row)=>row.star > 10} headClickHandle={doProjectSort} />
+                        <Grid className="grid bordered highlight" gridColumn={project.column} gridList={project.list} sortBy={project.sortBy} filterBy={(row)=>row.star > 10} headClickHandle={doProjectSort} headRightClickHandle={doProjectColumnActive} />
                     </div>
                 </div>
             </div>

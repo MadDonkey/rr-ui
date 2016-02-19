@@ -7,7 +7,7 @@ module.exports = React.createClass({
         selections: React.PropTypes.array.isRequired,
         activeField: React.PropTypes.string,
         labelField: React.PropTypes.string,
-        selectionChangeHandle: React.PropTypes.func
+        selectionClickHandle: React.PropTypes.func
     },
     getDefaultProps: function () {
         return {
@@ -24,10 +24,10 @@ module.exports = React.createClass({
         this.setState({drop:!this.state.drop});
     },
     _bindItemClickHandle: function(selection) {
-        var {selectionChangeHandle} = this.props;
+        var {selectionClickHandle} = this.props;
 
-        if (selectionChangeHandle) {
-            return evt=>selectionChangeHandle(selection);
+        if (selectionClickHandle) {
+            return evt=>selectionClickHandle(selection);
         }else {
             return evt=>false;
         }
